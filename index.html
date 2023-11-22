@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"/>
@@ -23,12 +23,13 @@
         }
         body{
             background: #efefef;
-            margin: 24px;
         }
         .page_logo
         {
-            width: 200px;
-            height: 200px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+            margin-right: 12px;
         }
         .usericon
         {
@@ -54,25 +55,48 @@
         .mdl-card {
             margin: 8px;
         }
+        .header
+        {
+            background: rgb(82, 52, 183);
+            padding: 12px;
+            color: white;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        main
+        {
+            margin: 8px;
+        }
     </style>
 </head>
 <body>
-<div style="display:flex;align-items:center;flex-wrap: wrap;">
-<img class="page_logo" src="logo.jpg">
-<h1 class="page_title">ThePPShow subreddit archive</h1>
-        <!-- Expandable Textfield -->
+
+
+
+<div class="header">
+    <!-- Title -->
+    <img class="page_logo" src="logo.jpg">
+    <span class="mdl-layout-title">ThePPShow subreddit archive</span>
+    <!-- Add spacer, to align navigation to the right -->
+    <div class="mdl-layout-spacer"></div>
+    <!-- Navigation -->
+    <div style="display:flex; align-items:center; width: 50%">
+        <i class="material-icons" style="margin: 0px 12px;">search</i>
+        <div class="mdl-textfield mdl-js-textfield">
+            <div class="mdl-texfield">
+                <input id="search" class="mdl-textfield__input" type="text">
+                <label style="color: #aaa" class="mdl-textfield__label" for="search">Username</label>
+            </div>
+        </div>
+    </div>
 </div>
-<div style="display:flex; align-items:center">
-     <i class="material-icons" style="margin: 0px 12px;">search</i>
-  <div class="mdl-textfield mdl-js-textfield">
-    <div class="mdl-texfield">
-      <input id="search" class="mdl-textfield__input" type="text">
-      <label class="mdl-textfield__label" for="search">Username</label>
-  </div>
-  </div>
+<main class="mdl-layout__content">
+    <div id="users"></div>
+</main>
 </div>
 
-<div id="users"></div>
+
 <script>
 
 var global_users = {};
