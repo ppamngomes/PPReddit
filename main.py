@@ -7,10 +7,9 @@ import sys
 import zipfile
 import csv
 import os
-from linkpreview import link_preview
+from linkpreview import link_preview  # used to see the preview of the url (to get the images for the posts)
 import requests
 import shutil
-
 
 if len(sys.argv) != 2:
     print("Usage: python main.py <reddit_zip_file>")
@@ -20,6 +19,7 @@ path_to_zip_file = sys.argv[1]
 username = os.path.basename(path_to_zip_file).split("_")[1]
 tmp_dir = "tmp"
 data_dir = "data"
+# create temporary and output (data) directories
 try:
     os.makedirs(tmp_dir)
 except:
@@ -28,20 +28,25 @@ try:
     os.makedirs(data_dir)
 except:
     pass
+
+# extract the reddit data request into the tmp folder
 with zipfile.ZipFile(path_to_zip_file, 'r') as zip_ref:
     zip_ref.extractall(tmp_dir)
 
 
+# Load a template file into a string
 def load_template(template_name):
     with open(template_name, "r") as f:
         return f.read()
 
 
+# Check if the users file already exists and if not create an empty one with a empty json object
 if not os.path.exists("data/users.json"):
     with open("data/users.json", "w") as f:
         f.write("{}")
 
 
+# Fetch the user image from reddit
 def get_user_image():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -50,6 +55,7 @@ def get_user_image():
     return response.json()["data"]["icon_img"]
 
 
+# Load the users file and add the user to the users.json file if not already there
 users = json.loads(load_template("data/users.json"))
 if username not in users:
     users[username] = get_user_image()
@@ -57,20 +63,16 @@ if username not in users:
         f.write(json.dumps(users))
 
 
+# Fetch the post image (treat giphy differently)
 def get_image(image):
-    if "giphy" in image:
-        image_url = image.replace("gifs", "embed")
-        image_id = image_url.split("/")[-1].split("-")[-1]
-        image_url = "/".join(image_url.split("/")[:-1]) + "/" + image_id
-        return load_template("giphy.tmpl.html").format(src=image_url)
-    else:
-        try:
-            preview = link_preview(image)
-            return load_template("image.tmpl.html").format(src=preview.image)
-        except:
-            return ""
+    try:
+        preview = link_preview(image)
+        return load_template("image.tmpl.html").format(src=preview.image)
+    except:
+        return ""
 
 
+# Converts the posts.csv file from the reddit data request into a html file
 def generate_html():
     shutil.copyfile("logo.jpg", "%s/logo.jpg" % data_dir)
     shutil.copyfile("index.html", "%s/index.html" % data_dir)
@@ -81,7 +83,8 @@ def generate_html():
         with open(posts_file) as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                data = dict(body=row["body"], title=row["title"], user=username, date=row["date"], subreddit=row["subreddit"],
+                data = dict(body=row["body"], title=row["title"], user=username, date=row["date"],
+                            subreddit=row["subreddit"],
                             image=get_image(row["url"]), user_icon=users[username])
                 posts.append(load_template("post_entry.tmpl.html").format(**data))
         template_data = dict(
@@ -91,8 +94,5 @@ def generate_html():
         f.write(load_template("main.tmpl.html").format(**template_data))
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     generate_html()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
