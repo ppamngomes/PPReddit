@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"/>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <meta http-equiv='cache-control' content='no-cache'>
+    <meta http-equiv='expires' content='0'>
+    <meta http-equiv='pragma' content='no-cache'>
+    <title>{username} posts</title>
+    <style>
+    .demo-card-wide {{
+        margin: 24px auto;
+        max-width: 800px;
+    }}
+    .demo-card-wide.mdl-card {{
+      width: 90%;
+    }}
+    .demo-card-wide > .mdl-card__title {{
+      color: #fff;
+      height: 176px;
+    }}
+    .demo-card-wide > .mdl-card__menu {{
+      color: #fff;
+    }}
+    body{{
+      background: #efefef;
+    }}
+    .mdl-card_title
+    {{
+        padding: 0px 24px;
+        margin-bottom: 12px;
+        font-size: x-large;
+    }}
+    .mdl-card__body
+    {{
+        padding: 24px;
+    }}
+    .material-icons
+    {{
+        color: black;
+    }}
+    .card-image {{
+        max-width: 400px;
+        margin: auto;
+    }}
+    .img_container {{
+        background: #222;
+        width: 100%;
+        display:flex;
+    }}
+    .usericon
+    {{
+        width: 35px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }}
+    .header
+    {{
+        background: rgb(82, 52, 183);
+        padding: 0px 12px;
+        color: white;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        height: 72px;
+    }}
+    .page_logo
+    {{
+        width: 40px;
+        height: 40px;
+        border: 1px solid black;
+        margin-right: 12px;
+        border-radius: 50%;
+    }}
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <!-- Title -->
+    <button class="mdl-button mdl-js-button mdl-button--icon" style="margin-right:8px"  onclick="location.href='.'">
+        <i class="material-icons" style="color:white">arrow_back</i>
+    </button>
+    <img class="page_logo" src="logo.jpg">
+    <span class="mdl-layout-title">ThePPShow subreddit archive - {username} posts</span>
+    <!-- Add spacer, to align navigation to the right -->
+    <div class="mdl-layout-spacer"></div>
+</div>
+{posts}
+</body>
+</html>
