@@ -51,7 +51,7 @@ def get_user_image():
     headers = {
         'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/39.0.2171.95 Safari/537.36'}
-    response = requests.get("https://www.reddit.com/user/amngomes/about.json", headers=headers)
+    response = requests.get("https://www.reddit.com/user/%s/about.json" % username, headers=headers)
     return response.json()["data"]["icon_img"]
 
 
@@ -91,7 +91,7 @@ def generate_html():
             username=username,
             posts="\n".join(posts).replace("{", "{{").replace("}", "}}")
         )
-        f.write(load_template("main.tmpl.html").format(**template_data))
+        f.write(load_template("user.html").format(**template_data))
 
 
 if __name__ == '__main__':
